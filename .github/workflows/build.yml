@@ -13,16 +13,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Install CMake
-        run: brew install cmake
-
-      - name: Configure CMake
-        run: cmake -S . -B build -G Xcode
-
-      
-
       - name: Build
-        run: cmake --build build --config Release
+        run: ./build.sh
       
       - name: Get all files in build directory
         run: ls /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/

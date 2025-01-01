@@ -5,6 +5,12 @@ then
     echo "Installing CMake...\n"
     brew install cmake
 fi
+
+git clone https://github.com/lua/lua.git third_party/lua
+cd third_party/lua
+make macosx
+cd ..
+
 cmake -S . -B build -G Xcode
 if [ $? -eq 0 ]; then
     cmake --build build --config Release

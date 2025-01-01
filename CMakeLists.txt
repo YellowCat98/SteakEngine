@@ -17,6 +17,8 @@ set(SOURCES
 file(GLOB LUA_SOURCES
     libs/lua/*.c
 )
+message(STATUS "Lua sources: ${LUA_SOURCES}")
+
 add_library(Lua STATIC ${LUA_SOURCES})
 
 # Create the dynamic libraries

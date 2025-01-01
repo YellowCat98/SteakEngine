@@ -6,9 +6,10 @@ then
     brew install cmake
 fi
 cmake -S . -B build -G Xcode
-if [ $? -eq 0]; then
+if [ $? -eq 0 ]; then
     cmake --build build --config Release
-    if [ $? -eq 1]; then
+    if [ $? -eq 1 ]; then
         echo "Build failed.\n"
-    fi
+    else
+        echo "Build succeeded!\n"
 fi

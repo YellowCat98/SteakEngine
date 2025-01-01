@@ -8,7 +8,7 @@ fi
 
 git clone https://github.com/lua/lua.git third_party/lua
 cd third_party/lua
-make macosx
+make macos
 cd ..
 
 cmake -S . -B build -G Xcode

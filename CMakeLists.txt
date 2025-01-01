@@ -13,7 +13,7 @@ set(SOURCES
     src/main.mm
 )
 
-# cant use add_subdirectory cause lua doesnt use cmake
+# Lua sources (C files)
 file(GLOB LUA_SOURCES
     lib/lua/lapi.c
     lib/lua/lauxlib.c
@@ -49,18 +49,16 @@ file(GLOB LUA_SOURCES
     lib/lua/lcorolib.c 
 )
 
+# Build Lua as a static library
 add_library(Lua STATIC ${LUA_SOURCES})
+set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)  # Ensure Lua is treated as C
 
 target_include_directories(Lua PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lua
 )
 
-set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)
-target_link_options(Lua PRIVATE "-Wl,--whole-archive" "-Wl,--no-whole-archive")
-
-# Create the dynamic libraries
+# Create the dynamic library (SteakEngine)
 add_library(SteakEngine SHARED ${SOURCES})
-
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/utils)
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/lua)
@@ -74,7 +72,6 @@ set_target_properties(SteakEngine PROPERTIES
     OUTPUT_NAME "SteakEngine"
 )
 
-
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(CMAKE_OSX_SYSROOT /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk)
     set(CMAKE_OSX_ARCHITECTURES arm64)
@@ -84,8 +81,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(SteakEngine
         "-framework UIKit"
         "-framework Foundation"
-        Lua
+        Lua  # Link Lua as well
     )
 endif()
 
-add_dependencies(${PROJECT_NAME} Lua)
+add_dependencies(${PROJECT_NAME} Lua)  # Ensure Lua is built before SteakEngine

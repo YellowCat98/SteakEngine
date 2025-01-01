@@ -20,6 +20,7 @@ file(GLOB LUA_SOURCES
 message(STATUS "Lua sources: ${LUA_SOURCES}")
 
 add_library(Lua STATIC ${LUA_SOURCES})
+set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)
 
 # Create the dynamic libraries
 add_library(SteakEngine SHARED ${SOURCES})

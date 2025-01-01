@@ -15,9 +15,8 @@ set(SOURCES
 
 # cant use add_subdirectory cause lua doesnt use cmake
 file(GLOB LUA_SOURCES
-    lib/lua/*.c
+    lib/lua/*
 )
-message(STATUS "Lua sources: ${LUA_SOURCES}")
 
 add_library(Lua STATIC ${LUA_SOURCES})
 set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)

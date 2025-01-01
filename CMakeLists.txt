@@ -50,7 +50,13 @@ file(GLOB LUA_SOURCES
 )
 
 add_library(Lua STATIC ${LUA_SOURCES})
+
+target_include_directories(Lua PUBLIC 
+    ${CMAKE_CURRENT_SOURCE_DIR}/lib/lua
+)
+
 set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)
+target_link_options(Lua PRIVATE "-Wl,--whole-archive" "-Wl,--no-whole-archive")
 
 # Create the dynamic libraries
 add_library(SteakEngine SHARED ${SOURCES})
@@ -81,3 +87,5 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         Lua
     )
 endif()
+
+add_dependencies(${PROJECT_NAME} Lua)

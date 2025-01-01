@@ -12,4 +12,5 @@ if [ $? -eq 0 ]; then
         echo "Build failed.\n"
     else
         echo "Build succeeded!\n"
+    fi
 fi

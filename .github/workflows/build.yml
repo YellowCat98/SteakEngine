@@ -1,0 +1,47 @@
+name: Build iOS Dylib
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build iOS Dylib
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install CMake
+        run: brew install cmake
+
+      - name: Configure CMake
+        run: cmake -S . -B build -G Xcode
+
+      
+
+      - name: Build
+        run: cmake --build build --config Release
+      
+      - name: Get all files in build directory
+        run: ls /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/
+
+      - name: Upload dylib
+        uses: actions/upload-artifact@v3
+        with:
+          name: CharlieEngineInject.dylib
+          path: /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/*.dylib
+      
+      - name: Upload Nightly
+        uses: andelf/nightly-release@main
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: nightly
+          name: 'Nightly'
+          prerelease: true
+          body: |
+            This is the latest build for commit ${{ github.sha }}
+            This build isn't stable. use at your own risk.
+          files: /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/*.dylib

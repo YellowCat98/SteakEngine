@@ -10,7 +10,7 @@
 
 extern "C" int csops(pid_t pid, int ops, void *useraddr, size_t usersize);
 
-namespace CharlieEngine {
+namespace SteakEngine {
     namespace utils {
         NSString *log(NSString *str) {
             

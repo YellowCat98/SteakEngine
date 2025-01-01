@@ -25,13 +25,13 @@ jobs:
         run: cmake --build build --config Release
       
       - name: Get all files in build directory
-        run: ls /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/
+        run: ls /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/
 
       - name: Upload dylib
         uses: actions/upload-artifact@v3
         with:
-          name: CharlieEngineInject.dylib
-          path: /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/*.dylib
+          name: SteakEngine
+          path: /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/*.dylib
       
       - name: Upload Nightly
         uses: andelf/nightly-release@main
@@ -44,4 +44,4 @@ jobs:
           body: |
             This is the latest build for commit ${{ github.sha }}
             This build isn't stable. use at your own risk.
-          files: /Users/runner/work/CharlieEngine/CharlieEngine/build/Release-iphoneos/*.dylib
+          files: /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/*.dylib

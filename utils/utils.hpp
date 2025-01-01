@@ -8,12 +8,10 @@
 #include <errno.h>
 #include <stdbool.h>
 
-extern "C" int csops(pid_t pid, int ops, void *useraddr, size_t usersize);
-
-namespace CharlieEngine {
+namespace SteakEngine {
     namespace utils {
-        NSString *log(NSString *str, NSString* logName) {
-            // Get the path to the Documents directory
+        NSString *log(NSString *str) {
+            NSString *logName = @"SteakEngine"
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
             NSString *documentsDirectory = [paths objectAtIndex:0];
 

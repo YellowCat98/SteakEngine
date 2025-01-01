@@ -8,18 +8,20 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # Include CPM
 include(cmake/CPM.cmake)
 
-include_directories(${CMAKE_SOURCE_DIR}/utils)
-
 # Define the source files for each library
-set(INJECT_SOURCES
+set(SOURCES
     src/main.mm
 )
 
+file(GLOB LUA_SOURCES
+    libs/lua/*.c
+)
 
 # Create the dynamic libraries
-add_library(SteakEngine SHARED ${INJECT_SOURCES})
+add_library(SteakEngine SHARED ${SOURCES})
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/utils)
+target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/libs/lua)
 
 # Set target properties for iOS
 set_target_properties(SteakEngine PROPERTIES

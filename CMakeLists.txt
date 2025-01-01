@@ -27,7 +27,7 @@ add_library(SteakEngine SHARED ${SOURCES})
 
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/utils)
-target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/libs/lua)
+target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/lua)
 
 # Set target properties for iOS
 set_target_properties(SteakEngine PROPERTIES

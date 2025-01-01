@@ -7,4 +7,7 @@
 __attribute__((constructor))
 static void initialize() {
 	SteakEngine::utils::log(@"Hello!\n");
+	while (true) {
+		NSLog(@"Hello this is a test ot make sure that the application is doing as aexpected,")
+	}
 }

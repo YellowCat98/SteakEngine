@@ -13,12 +13,15 @@ set(SOURCES
     src/main.mm
 )
 
+# cant use add_subdirectory cause lua doesnt use cmake
 file(GLOB LUA_SOURCES
     libs/lua/*.c
 )
+add_library(Lua STATIC ${LUA_SOURCES})
 
 # Create the dynamic libraries
 add_library(SteakEngine SHARED ${SOURCES})
+
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/utils)
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/libs/lua)
@@ -42,5 +45,6 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(SteakEngine
         "-framework UIKit"
         "-framework Foundation"
+        Lua
     )
 endif()

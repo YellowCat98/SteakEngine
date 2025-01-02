@@ -6,11 +6,10 @@
 
 __attribute__((constructor))
 static void initialize() {
-	lua_State* L = lua_newstate();
+	lua_State* L = luaL_newstate();
 	luaL_openLibs(L);
 
 	if (luaL_dostring(L, "print('Hello from lua.')") != LUA_OK) {
-		// Print any error message
 		SteakEngine::utils::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}
 }

@@ -17,7 +17,7 @@ int lua::log(lua_State* L) {
     const char* message = lua_tostring(L, 1);
 
     // Call NSLog from Objective-C (via Foundation framework)
-    SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:message]]);
+    SteakEngine::log([NSString stringWithUTF8String:message]);
 
     return 0;
 }

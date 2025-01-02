@@ -24,7 +24,7 @@ static void initialize() {
 
 	LevelSelectorView_isEnoughMeatballsToUnlockLevel = (bool (*)(id, SEL, long long))original_imp;
 
-	rebind_symbols((struct rebinding[1]){{"isEnoughMeatballsToUnlockLevel:param2:param3:", (bool *)my_isEnoughMeatballsToUnlockLevel, (bool **)&LevelSelectorView_isEnoughMeatballsToUnlockLevel}}, 1);
+	rebind_symbols((struct rebinding[1]){{"isEnoughMeatballsToUnlockLevel:param2:param3:", (bool *)my_isEnoughMeatballsToUnlockLevel, (void **)&LevelSelectorView_isEnoughMeatballsToUnlockLevel}}, 1);
 
 	if (luaL_dostring(L, "Log('Hello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

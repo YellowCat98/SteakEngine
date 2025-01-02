@@ -8,8 +8,8 @@ static void (*KnifeGameLogic_addMeatballs)(id, SEL, long long);
 
 void my_addMeatballs(id self, SEL _cmd, long long param_3) {
     SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
-    // Call the original function if needed
-    ((void (*)(id, SEL, long long))original_addMeatballs)(self, _cmd, param_3);
+
+    return ((void (*)(id, SEL, long long))KnifeGameLogic_addMeatballs)(self, _cmd, param_3);
 }
 
 __attribute__((constructor))
@@ -22,7 +22,7 @@ static void initialize() {
 	Method method = class_getInstanceMethod(objc_getClass("KnifeGameLogic"), @selector(addMeatballs:param2:param3:));
 	IMP original_imp = method_getImplementation(method);
 
-	original_addMeatballs = (void (*)(id, SEL, long long))original_imp;
+	KnifeGameLogic_addMeatballs = (void (*)(id, SEL, long long))original_imp;
 
 	rebind_symbols((struct rebinding[1]){{"addMeatballs:param2:param3:", (void *)my_addMeatballs, (void **)&KnifeGameLogic_addMeatballs}}, 1);
 

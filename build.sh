@@ -6,7 +6,7 @@ then
     brew install cmake
 fi
 
-git clone https://github.com/lua/lua.git lib/lua
+git clone https://github.com/YellowCat98/lua-ios.git lib/lua
 
 cmake -S . -B build -G Xcode
 if [ $? -eq 0 ]; then

@@ -16,7 +16,7 @@ extern "C" {
 extern "C" int csops(pid_t pid, int ops, void *useraddr, size_t usersize);
 
 namespace SteakEngine {
-    void *log(NSString *str);
+    void log(NSString *str);
 
     bool hasJIT(int pid);
 

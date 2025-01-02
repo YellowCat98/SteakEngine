@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <stdbool.h>
 #include <fishhook.h>
+#include <objc/runtime.h>
 extern "C" {
     #include <lua.h>
     #include <lualib.h>

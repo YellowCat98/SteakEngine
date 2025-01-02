@@ -24,6 +24,6 @@ namespace SteakEngine {
     namespace lua {
         void init(lua_State* L); // unrelated to bindings, this initializes all lua bindings.
 
-        int nslog(lua_State* L);
+        int log(lua_State* L);
     }
 }

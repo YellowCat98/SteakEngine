@@ -7,9 +7,11 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdbool.h>
-#include <lua.h>
-#include <lualib.h>
-#include <lauxlib.h>
+extern "C" {
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
 
 extern "C" int csops(pid_t pid, int ops, void *useraddr, size_t usersize);
 

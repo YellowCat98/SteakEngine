@@ -9,8 +9,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 include(cmake/CPM.cmake)
 
 # Define the source files for each library
-set(SOURCES
-    src/main.mm
+file(GLOB SOURCES
+    src/*.mm
 )
 
 # Lua sources (C files)

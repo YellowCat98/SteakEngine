@@ -9,7 +9,9 @@ static void initialize() {
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 
-	if (luaL_dostring(L, "print('Hello from lua.')") != LUA_OK) {
+	SteakEngine::lua::init(L);
+
+	if (luaL_dostring(L, "Log('Hello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}
 }

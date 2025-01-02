@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <fishhook.h>
 #include <objc/runtime.h>
+#include <objc/objc.h>
 extern "C" {
     #include <lua.h>
     #include <lualib.h>

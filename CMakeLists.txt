@@ -5,10 +5,8 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Include CPM
 include(cmake/CPM.cmake)
 
-# Define the source files for each library
 file(GLOB SOURCES
     src/*.mm
 )
@@ -67,7 +65,6 @@ target_include_directories(Fish PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/fishhook
 )
 
-# Create the dynamic library (SteakEngine)
 add_library(SteakEngine SHARED ${SOURCES})
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/include)

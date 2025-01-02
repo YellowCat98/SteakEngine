@@ -2,12 +2,15 @@
 #import <Foundation/Foundation.h>
 #include <string>
 #include <dlfcn.h>
-#include "utils.hpp"
+#include "SteakEngine.hpp"
 
 __attribute__((constructor))
 static void initialize() {
-	SteakEngine::utils::log(@"Hello!\n");
-	while (true) {
-		NSLog(@"Hello this is a test ot make sure that the application is doing as aexpected,");
+	lua_State* L = lua_newstate();
+	luaL_openLibs(L);
+
+	if (luaL_dostring(L, "print('Hello from lua.')") != LUA_OK) {
+		// Print any error message
+		SteakEngine::utils::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}
 }

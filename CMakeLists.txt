@@ -60,7 +60,7 @@ target_include_directories(Lua PUBLIC
 # Create the dynamic library (SteakEngine)
 add_library(SteakEngine SHARED ${SOURCES})
 
-target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/utils)
+target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/lua)
 
 # Set target properties for iOS

@@ -20,6 +20,9 @@ static void initialize() {
 	SteakEngine::lua::init(L);
 
 	Method method = class_getInstanceMethod(objc_getClass("RunningMinigameViewController"), @selector(bonusMeatballsGathered:));
+	if (!method) {
+		SteakEngine::log("Method not found");
+	}
 	IMP original_imp = method_getImplementation(method);
 
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;

@@ -21,7 +21,7 @@ static void initialize() {
 
 	Method method = class_getInstanceMethod(objc_getClass("RunningMinigameViewController"), @selector(bonusMeatballsGathered:));
 	if (!method) {
-		SteakEngine::log("Method not found");
+		SteakEngine::log(@"Method not found");
 	}
 	IMP original_imp = method_getImplementation(method);
 

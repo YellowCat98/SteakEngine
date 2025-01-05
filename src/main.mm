@@ -4,9 +4,9 @@
 #include <dlfcn.h>
 #include "SteakEngine.hpp"
 
-static int (*RunningMinigameViewController_bonusMeatballsGathered)();
+static bool (*LevelSelectorView_canSelectLevel)(unsigned long long);
 
-int my_bonusMeatballsGathered() {
+bool my_canSelectLevel(unsigned long long param_1) {
     SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
     return 696969;
@@ -19,7 +19,7 @@ static void initialize() {
 
 	SteakEngine::lua::init(L);
 
-	Class targetClass = objc_getClass("RunningMinigameViewController");
+	Class targetClass = objc_getClass("LevelSelectorView");
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
 	} else {
@@ -45,14 +45,14 @@ static void initialize() {
 
 
 
-	Method method = class_getInstanceMethod(targetClass, @selector(bonusMeatballsGathered));
+	Method method = class_getInstanceMethod(targetClass, @selector(canSelectLevel:));
 	if (!method) {
 		SteakEngine::log(@"\nMethod not found");
 	}
 
-	RunningMinigameViewController_bonusMeatballsGathered = (int (*)())method_getImplementation(method);
+	LevelSelectorView_canSelectLevel = (bool (*)(unsigned long long))method_getImplementation(method);
 
-    IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
+    IMP swizzledIMP = (IMP)my_canSelectLevel;
     method_setImplementation(method, swizzledIMP);
 
 	SteakEngine::log([NSString stringWithFormat:@"\nSwizzled IMP: %p", swizzledIMP]);

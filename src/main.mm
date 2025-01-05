@@ -9,7 +9,7 @@ static bool (*LevelSelectorView_canSelectLevel)(unsigned long long);
 bool my_canSelectLevel(unsigned long long param_1) {
     SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
-    return LevelSelectorView_canSelectLevel(param_1);
+    return false;
 }
 
 __attribute__((constructor))

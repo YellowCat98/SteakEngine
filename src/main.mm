@@ -13,7 +13,7 @@ bool my_canSelectLevel(unsigned long long param_1) {
     SEL selector = @selector(canSelectLevel:);
     bool result = ((bool (*)(id, SEL, unsigned long long))objc_msgSend)(self, selector, param_1);
 
-	SteakEngine::log([NSString stringWithUTF8String:std::to_string(static_cast<int>(result).c_str())]);
+	SteakEngine::log([NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]);
 
     return true;
 }

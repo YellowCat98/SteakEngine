@@ -6,7 +6,7 @@
 
 static int (*RunningMinigameViewController_bonusMeatballsGathered)();
 
-int my_bonusMeatballsGathered(id self, SEL _cmd) {
+int my_bonusMeatballsGathered() {
     SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
     return 696969;

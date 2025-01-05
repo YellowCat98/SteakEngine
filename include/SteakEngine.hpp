@@ -7,7 +7,6 @@
 #include <sys/types.h>
 #include <errno.h>
 #include <stdbool.h>
-#include <fishhook.h>
 #include <objc/runtime.h>
 #include <objc/objc.h>
 extern "C" {

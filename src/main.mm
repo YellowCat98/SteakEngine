@@ -32,6 +32,13 @@ static void initialize() {
 		}
 
 		free(methods);
+
+		SEL targetSelector = @selector(bonusMeatballsGathered:);
+		if (!targetSelector) {
+			SteakEngine::log(@"\nSelector not created");
+		} else {
+			SteakEngine::log(@"\nSelector validated");
+		}
 	}
 
 

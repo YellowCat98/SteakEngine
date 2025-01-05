@@ -47,8 +47,8 @@ static void initialize() {
 	if (!method) {
 		SteakEngine::log(@"\nMethod not found");
 	}
-	IMP original_imp = method_getImplementation(method);
-	SteakEngine::log([NSString stringWithFormat:@"\nOriginal IMP: %p", method_getImplementation(method)]);
+
+	RunningMinigameViewController_bonusMeatballsGathered = (int (*)(id, SEL))method_getImplementation(method);
 
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
     method_setImplementation(method, swizzledIMP);

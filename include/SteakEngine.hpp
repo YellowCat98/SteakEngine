@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <objc/runtime.h>
 #include <objc/objc.h>
+#include <objc/message.h>
 extern "C" {
     #include <lua.h>
     #include <lualib.h>

@@ -19,16 +19,22 @@ static void initialize() {
 
 	SteakEngine::lua::init(L);
 
-	Method method = class_getInstanceMethod(objc_getClass("RunningMinigameViewController"), @selector(bonusMeatballsGathered:));
+	Class targetClass = objc_getClass("RunningMinigameViewController");
+	if (!targetClass) {
+		SteakEngine::log(@"\nClass not found");
+	}
+
+	Method method = class_getInstanceMethod(targetClass, @selector(bonusMeatballsGathered:));
 	if (!method) {
-		SteakEngine::log(@"Method not found");
+		SteakEngine::log(@"\nMethod not found");
 	}
 	IMP original_imp = method_getImplementation(method);
+	SteakEngine::log([NSString stringWithFormat:@"\nOriginal IMP: %p", method_getImplementation(method)]);
 
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
     method_setImplementation(method, swizzledIMP);
 
-	if (luaL_dostring(L, "Log('Hello from lua.')") != LUA_OK) {
+	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}
 }

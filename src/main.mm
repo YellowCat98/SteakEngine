@@ -23,12 +23,12 @@ static void initialize() {
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
 	} else {
-		SteakEngine::log(@"Class found, getting all methods...");
+		SteakEngine::log(@"Class found, getting all methods...\n");
 		
 		unsigned int allMethods;
 		Method* methods = class_copyMethodList(targetClass, &allMethods);
 		for (unsigned int i = 0; i < allMethods; i++) {
-			SteakEngine::log(NSStringFromSelector(method_getName(methods[i])));
+			SteakEngine::log([@"\n" stringByAppendingString:NSStringFromSelector(method_getName(methods[i]))]);
 		}
 
 		free(methods);

@@ -24,21 +24,23 @@ static void initialize() {
 		SteakEngine::log(@"\nClass not found");
 	} else {
 		SteakEngine::log(@"Class found, getting all methods...\n");
-		
+
 		unsigned int allMethods;
 		Method* methods = class_copyMethodList(targetClass, &allMethods);
 		for (unsigned int i = 0; i < allMethods; i++) {
-			SteakEngine::log([@"\n" stringByAppendingString:NSStringFromSelector(method_getName(methods[i]))]);
+			SEL selector = method_getName(methods[i]);
+			NSString *methodName = NSStringFromSelector(selector);
+			SteakEngine::log([@"\nMethod: " stringByAppendingString:methodName]);
+
+			unsigned int argumentCount = method_getNumberOfArguments(methods[i]);
+			for (unsigned int j = 0; j < argumentCount; j++) {
+				char argumentType[256];
+				method_getArgumentType(methods[i], j, argumentType, sizeof(argumentType));
+				SteakEngine::log([@"  Argument " stringByAppendingString:[NSString stringWithFormat:@"%u: %s", j, argumentType]]);
+			}
 		}
 
 		free(methods);
-
-		//SEL targetSelector = @selector(bonusMeatballsGathered:);
-		//if (!targetSelector) {
-		//	SteakEngine::log(@"\nSelector not created");
-		//} else {
-		//	SteakEngine::log(@"\nSelector validated");
-		//}
 	}
 
 
@@ -53,7 +55,7 @@ static void initialize() {
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
     method_setImplementation(method, swizzledIMP);
 
-	SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
+	SteakEngine::log([NSString stringWithFormat:@"\nSwizzled IMP: %p", swizzledIMP]);
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

@@ -22,7 +22,17 @@ static void initialize() {
 	Class targetClass = objc_getClass("RunningMinigameViewController");
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
+	} else {
+		SteakEngine::log(@"Class found, getting all methods...");
+		
+		unsigned int allMethods;
+		Method* method = class_copyMethodList(targetClass, &allMethods);
+		for (unsigned int i = 0; i < allMethods; i++) {
+			SteakEngine::log(NSStringFromSelector(method_getName(allMethods[i])));
+		}
 	}
+
+
 
 	Method method = class_getInstanceMethod(targetClass, @selector(bonusMeatballsGathered:));
 	if (!method) {

@@ -53,6 +53,8 @@ static void initialize() {
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
     method_setImplementation(method, swizzledIMP);
 
+	SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
+
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}

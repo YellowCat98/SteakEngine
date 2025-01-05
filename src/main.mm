@@ -4,7 +4,7 @@
 #include <dlfcn.h>
 #include "SteakEngine.hpp"
 
-static int (*RunningMinigameViewController_bonusMeatballsGathered)(id, SEL);
+static int (*RunningMinigameViewController_bonusMeatballsGathered)();
 
 int my_bonusMeatballsGathered(id self, SEL _cmd) {
     SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
@@ -48,13 +48,12 @@ static void initialize() {
 		SteakEngine::log(@"\nMethod not found");
 	}
 
-	RunningMinigameViewController_bonusMeatballsGathered = (int (*)(id, SEL))method_getImplementation(method);
+	RunningMinigameViewController_bonusMeatballsGathered = (int (*)())method_getImplementation(method);
 
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
-    //method_setImplementation(method, swizzledIMP);
+    method_setImplementation(method, swizzledIMP);
 
-	//SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
-	class_replaceMethod(targetClass, @selector(bonusMeatballsGathered), (IMP)my_bonusMeatballsGathered, "v@:");
+	SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

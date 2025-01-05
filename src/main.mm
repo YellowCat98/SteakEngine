@@ -51,9 +51,10 @@ static void initialize() {
 	RunningMinigameViewController_bonusMeatballsGathered = (int (*)(id, SEL))method_getImplementation(method);
 
     IMP swizzledIMP = (IMP)my_bonusMeatballsGathered;
-    method_setImplementation(method, swizzledIMP);
+    //method_setImplementation(method, swizzledIMP);
 
-	SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
+	//SteakEngine::log([NSString stringWithFormat:@"Swizzled IMP: %p", swizzledIMP]);
+	class_replaceMethod(targetClass, @selector(bonusMeatballsGathered), (IMP)my_bonusMeatballsGathered, "v@:");
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

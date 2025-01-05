@@ -4,12 +4,12 @@
 #include <dlfcn.h>
 #include "SteakEngine.hpp"
 
-static bool (*LevelSelectorView_canSelectLevel)(unsigned long long);
+static bool (*LevelSelectorView_canSelectLevel)(id, SEL, unsigned long long);
 
-bool my_canSelectLevel(unsigned long long param_1) {
+bool my_canSelectLevel(id self, SEL _cmd, unsigned long long param_1) {
     SteakEngine::log(@"\nI HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
-    bool result = ((bool (*)(unsigned long long))LevelSelectorView_canSelectLevel)(param_1);
+    bool result = ((bool (*)(id, SEL, unsigned long long))LevelSelectorView_canSelectLevel)(self, _cmd, param_1);
 
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 
@@ -54,7 +54,7 @@ static void initialize() {
 		SteakEngine::log(@"\nMethod not found");
 	}
 
-	LevelSelectorView_canSelectLevel = (bool (*)(unsigned long long))method_getImplementation(method);
+	LevelSelectorView_canSelectLevel = (bool (*)(id, SEL, unsigned long long))method_getImplementation(method);
 
     IMP swizzledIMP = (IMP)my_canSelectLevel;
     method_setImplementation(method, swizzledIMP);

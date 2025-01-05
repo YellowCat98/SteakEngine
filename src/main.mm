@@ -7,15 +7,13 @@
 static bool (*LevelSelectorView_canSelectLevel)(unsigned long long);
 
 bool my_canSelectLevel(unsigned long long param_1) {
-    SteakEngine::log(@"I HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
+    SteakEngine::log(@"\nI HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
-    //id self = objc_getClass("LevelSelectorView");
-    //SEL selector = @selector(canSelectLevel:);
     bool result = LevelSelectorView_canSelectLevel(param_1);
 
-	SteakEngine::log([NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]);
+	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 
-    return true;
+    return result;
 }
 
 __attribute__((constructor))

@@ -47,29 +47,19 @@ file(GLOB LUA_SOURCES
     lib/lua/lcorolib.c 
 )
 
-set(FISH_SOURCES
-    lib/fishhook/fishhook.c
-)
 
 add_library(Lua STATIC ${LUA_SOURCES})
 set_target_properties(Lua PROPERTIES LINKER_LANGUAGE C)
-
-add_library(Fish STATIC ${FISH_SOURCES})
-set_target_properties(Fish PROPERTIES LINKER_LANGUAGE C)
 
 target_include_directories(Lua PUBLIC 
     ${CMAKE_CURRENT_SOURCE_DIR}/lib/lua
 )
 
-target_include_directories(Fish PUBLIC 
-    ${CMAKE_CURRENT_SOURCE_DIR}/lib/fishhook
-)
 
 add_library(SteakEngine SHARED ${SOURCES})
 
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/include)
 target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/lua)
-target_include_directories(SteakEngine PRIVATE ${CMAKE_SOURCE_DIR}/lib/fishhook)
 
 # Set target properties for iOS
 set_target_properties(SteakEngine PROPERTIES
@@ -90,9 +80,7 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         "-framework UIKit"
         "-framework Foundation"
         Lua
-        Fish
     )
 endif()
 
 add_dependencies(${PROJECT_NAME} Lua)
-add_dependencies(${PROJECT_NAME} Fish)

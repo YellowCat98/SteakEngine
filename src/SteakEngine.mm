@@ -46,7 +46,7 @@ bool SteakEngine::hasJIT(int pid) {
 }
 
 template <typename T, typename... Args>
-bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args...)) {
+bool SteakEngine::swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args...)) {
 	Method method = class_getInstanceMethod(cls, selector);
 	if (!method) {
 		SteakEngine::log(@"\nMethod not found");

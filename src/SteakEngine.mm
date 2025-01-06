@@ -3,6 +3,8 @@
 
 void SteakEngine::log(NSString *str) {
     
+    NSLog(str);
+
     NSString *logName = @"SteakEngine.log";
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];

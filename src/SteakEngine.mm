@@ -3,7 +3,7 @@
 
 void SteakEngine::log(NSString *str) {
     
-    NSLog(str);
+    NSLog(@"%@", str);
 
     NSString *logName = @"SteakEngine.log";
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -58,5 +58,5 @@ bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args
     IMP swizzledIMP = (IMP)myFunc;
     method_setImplementation(method, swizzledIMP);
 
-    SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)];);
+    SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)]);
 }

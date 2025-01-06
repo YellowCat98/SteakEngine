@@ -44,7 +44,7 @@ bool SteakEngine::hasJIT(int pid) {
         sleep(1);  // Wait for 1 second before checking again
     }
 }
-
+/*
 template <typename T, typename... Args>
 bool SteakEngine::swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args...)) {
 	Method method = class_getInstanceMethod(cls, selector);
@@ -60,3 +60,4 @@ bool SteakEngine::swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (
 
     SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)]);
 }
+*/

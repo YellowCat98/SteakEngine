@@ -44,3 +44,8 @@ bool SteakEngine::hasJIT(int pid) {
         sleep(1);  // Wait for 1 second before checking again
     }
 }
+
+template <typename T, typename... Args>
+bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...)) {
+    return true;
+}

@@ -23,6 +23,9 @@ namespace SteakEngine {
 
     bool hasJIT(int pid);
 
+    template <typename T, typename... Args>
+    bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...));
+
     // bindings and general stuff related to lua
     namespace lua {
         void init(lua_State* L); // unrelated to bindings, this initializes all lua bindings.

@@ -47,8 +47,10 @@ static void initialize() {
 		free(methods);
 	}
 
+	SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
 
 
+	/*
 	Method method = class_getInstanceMethod(targetClass, @selector(canSelectLevel:));
 	if (!method) {
 		SteakEngine::log(@"\nMethod not found");
@@ -60,6 +62,7 @@ static void initialize() {
     method_setImplementation(method, swizzledIMP);
 
 	SteakEngine::log([NSString stringWithFormat:@"\nSwizzled IMP: %p", swizzledIMP]);
+	*/
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

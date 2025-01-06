@@ -11,7 +11,7 @@ namespace SteakEngine {
             return false;
         }
 
-        IMP orignialIMP = method_getImplementation(method);
+        IMP originalIMP = method_getImplementation(method);
 
         func = (T (*)(Args...))originalIMP;
 

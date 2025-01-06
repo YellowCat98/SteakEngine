@@ -6,6 +6,7 @@
 #include "swizzleMethod.hpp"
 
 static bool (*LevelSelectorView_canSelectLevel)(id, SEL, unsigned long long);
+static long long (*GameUser_meatsCount)(id, SEL);
 
 bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
     SteakEngine::log(@"\nI HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
@@ -15,6 +16,14 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 
     return true;
+}
+
+long long my_meatsCount(id self, SEL _cmd) {
+	long long result = RunningObject_meatballs(self, _cmd);
+
+	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(result).c_str()]]);
+
+	return 696969;
 }
 
 __attribute__((constructor))
@@ -50,21 +59,7 @@ static void initialize() {
 	
 
 	SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
-
-
-	/*
-	Method method = class_getInstanceMethod(targetClass, @selector(canSelectLevel:));
-	if (!method) {
-		SteakEngine::log(@"\nMethod not found");
-	}
-
-	LevelSelectorView_canSelectLevel = (bool (*)(id, SEL, unsigned long long))method_getImplementation(method);
-
-    IMP swizzledIMP = (IMP)my_canSelectLevel;
-    method_setImplementation(method, swizzledIMP);
-
-	SteakEngine::log([NSString stringWithFormat:@"\nSwizzled IMP: %p", swizzledIMP]);
-	*/
+	SteakEngine::swizzleMethod<long long, id, SEL>(objc_getClass("GameUser"), @selector(meatsCount), GameUser_meatsCount, my_meatsCount);
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

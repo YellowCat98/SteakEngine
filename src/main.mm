@@ -48,8 +48,8 @@ static void initialize() {
 		free(methods);
 	}
 
-	LevelSelectorView_canSelectLevel = &LevelSelectorView_canSelectLevelFunction;
-    my_canSelectLevel = &my_canSelectLevelFunction;
+	LevelSelectorView_canSelectLevel = &LevelSelectorView_canSelectLevel;
+    my_canSelectLevel = &my_canSelectLevel;
 
 	SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
 

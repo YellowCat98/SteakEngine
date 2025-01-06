@@ -17,5 +17,7 @@ namespace SteakEngine {
         method_setImplementation(method, swizzledIMP);
 
         SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)]);
+
+        return true;
     }
 }

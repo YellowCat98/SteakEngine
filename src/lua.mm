@@ -4,6 +4,8 @@ using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
     lua_register(L, "Log", lua::log);
+    lua_register(L, "objc_getClass", lua::objc_getClass);
+    lua_register(L, "objc_selector", lua::objc_selector);
 }
 
 int lua::log(lua_State* L) {

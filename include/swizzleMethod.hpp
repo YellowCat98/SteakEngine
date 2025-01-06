@@ -11,12 +11,14 @@ namespace SteakEngine {
             return false;
         }
 
-        func = (T (*)(Args...))method_getImplementation(method);
+        IMP orignialIMP = method_getImplementation(method);
+
+        func = (T (*)(Args...))originalIMP;
 
         IMP swizzledIMP = (IMP)myFunc;
         method_setImplementation(method, swizzledIMP);
 
-        SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)]);
+        SteakEngine::log([NSString stringWithFormat:@"\nSwizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)]);
 
         return true;
     }

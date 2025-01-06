@@ -13,7 +13,9 @@ namespace SteakEngine {
 
         IMP originalIMP = method_getImplementation(method);
 
-        func = (T (*)(Args...))originalIMP;
+        auto originalFunc = reinterpret_cast<T (*)(Args...)>(originalIMP);
+
+        func = originalFunc;
 
         IMP swizzledIMP = (IMP)myFunc;
         method_setImplementation(method, swizzledIMP);

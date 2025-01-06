@@ -28,7 +28,7 @@ int lua::objc_getClass(lua_State* L) {
         lua_error(L);
     }
 
-    Class cls = objc_getClass(lua_tostring(L, 1));
+    Class cls = objc_getClass((const char*)lua_tostring(L, 1));
 
     lua_pushlightuserdata(L, (void *)cls);
 

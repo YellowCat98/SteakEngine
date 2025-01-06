@@ -24,7 +24,7 @@ namespace SteakEngine {
     bool hasJIT(int pid);
 
     template <typename T, typename... Args>
-    bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...));
+    bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args...));
 
     // bindings and general stuff related to lua
     namespace lua {

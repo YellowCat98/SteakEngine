@@ -46,6 +46,17 @@ bool SteakEngine::hasJIT(int pid) {
 }
 
 template <typename T, typename... Args>
-bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...)) {
-    return true;
+bool swizzleMethod(Class cls, SEL selector, T (*func)(Args...), T (*myFunc)(Args...)) {
+	Method method = class_getInstanceMethod(targetClass, selector);
+	if (!method) {
+		SteakEngine::log(@"\nMethod not found");
+        return false;
+	}
+
+    func = (T (*)(Args...))method_getImplementation(method);
+
+    IMP swizzledIMP = (IMP)myFunc;
+    method_setImplementation(method, swizzledIMP);
+
+    SteakEngine::log([NSString stringWithFormat:@"Swizzled method %@::%@", NSStringFromClass(cls), NSStringFromSelector(selector)];);
 }

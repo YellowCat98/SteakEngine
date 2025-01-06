@@ -3,6 +3,7 @@
 #include <string>
 #include <dlfcn.h>
 #include "SteakEngine.hpp"
+#include "swizzleMethod.hpp"
 
 static bool (*LevelSelectorView_canSelectLevel)(id, SEL, unsigned long long);
 

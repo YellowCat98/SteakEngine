@@ -6,10 +6,10 @@
 
 static bool (*LevelSelectorView_canSelectLevel)(id, SEL, unsigned long long);
 
-bool my_canSelectLevel(id self, SEL _cmd, unsigned long long param_1) {
+bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
     SteakEngine::log(@"\nI HOOKED THE FUNCTION!!!!!!!!!!!!!!!!!!");
 
-    bool result = ((bool (*)(id, SEL, unsigned long long))LevelSelectorView_canSelectLevel)(self, _cmd, param_1);
+    bool result = LevelSelectorView_canSelectLevel(self, _cmd, p0);
 
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 

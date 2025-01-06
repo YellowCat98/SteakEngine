@@ -19,7 +19,7 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 }
 
 long long my_meatsCount(id self, SEL _cmd) {
-	long long result = RunningObject_meatballs(self, _cmd);
+	long long result = GameUser_meatsCount(self, _cmd);
 
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(result).c_str()]]);
 

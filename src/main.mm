@@ -23,7 +23,7 @@ long long my_meatsCount(id self, SEL _cmd) {
 
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(result).c_str()]]);
 
-	return 696969;
+	return 10000000;
 }
 
 __attribute__((constructor))
@@ -58,7 +58,7 @@ static void initialize() {
 	}
 	
 
-	SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
+	//SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
 	SteakEngine::swizzleMethod<long long, id, SEL>(objc_getClass("GameUser"), @selector(meatsCount), GameUser_meatsCount, my_meatsCount);
 
 	if (luaL_dostring(L, "Log('\\nHello from lua.')") != LUA_OK) {

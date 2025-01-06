@@ -4,7 +4,7 @@
 
 namespace SteakEngine {
     template <typename T, typename... Args>
-    bool swizzleMethod(Class cls, SEL selector, T (*&func)(Args...), T (*&myFunc)(Args...)) {
+    bool swizzleMethod(Class cls, SEL selector, T (*&func)(Args...), T (*myFunc)(Args...)) {
         Method method = class_getInstanceMethod(cls, selector);
         if (!method) {
             SteakEngine::log(@"\nMethod not found");

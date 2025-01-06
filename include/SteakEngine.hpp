@@ -31,5 +31,7 @@ namespace SteakEngine {
         void init(lua_State* L); // unrelated to bindings, this initializes all lua bindings.
 
         int log(lua_State* L);
+        int objc_getClass(lua_State* L);
+        int objc_selector(lua_State* L);
     }
 }

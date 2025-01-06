@@ -21,3 +21,29 @@ int lua::log(lua_State* L) {
 
     return 0;
 }
+
+int lua::objc_getClass(lua_State* L) {
+    if (lua_gettop(L) < 1 || !lua_isstring(L, 1)) {
+        lua_pushstring(L, "Expected a string argument to NSLog.");
+        lua_error(L);
+    }
+
+    Class cls = objc_getClass(lua_tostring(L, 1));
+
+    lua_pushlightuserdata(L, (void *)cls);
+
+    return 1;
+}
+
+int lua::objc_selector(lua_State* L) {
+    if (lua_gettop(L) < 1 || !lua_isstring(L, 1)) {
+        lua_pushstring(L, "Expected a string argument to NSLog.");
+        lua_error(L);
+    }
+
+    SEL selector = NSSelectorFromString([NSString stringWithUTF8String:lua_tostring(L, 1)]);
+
+    lua_pushlightuserdata(L, (void *)selector);
+
+    return 1;
+}

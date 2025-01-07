@@ -60,14 +60,14 @@ void lua::bindObjc(lua_State* L) {
         const char* className = class_getName(cls);
         if (strncmp(className, "__", 2) == 0 || strncmp(className, "_", 2) == 0) continue;
 
-        SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
+        SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
         lua_pushstring(L, className);
         lua_newtable(L);
 
         unsigned int numMethods;
         Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
         if (!methods) {
-            SteakEngine::log([NSString stringWithFormat:@"Couldn't bind %s methods.", className]);
+            SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind %s methods.", className]);
             continue;
         }
         for (unsigned int j = 0; j < numMethods; j++) {

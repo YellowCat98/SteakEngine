@@ -9,7 +9,7 @@ void lua::init(lua_State* L) {
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
     const char* name = sel_getName(method_getName(method));
-    SteakEngine::log([NSString stringWithFormat:@"Binding Method %s::%s\n", class_getName(cls), name]);
+    SteakEngine::log([NSString stringWithFormat:@"Binding Method %s\n", name]);
     lua_pushstring(L, name);
     lua_pushlightuserdata(L, method);
     lua_pushcclosure(L, [](lua_State* L) -> int {
@@ -56,6 +56,7 @@ void lua::bindObjc(lua_State* L) {
         const char* className = class_getName(cls);
 
         if (strstr(className, "UI") == className || strstr(className, "objc_") == className) {
+            SteakEngine::log([NSString stringWithFormat:"Binding class %s", className]);
             lua_pushstring(L, className);
             lua_newtable(L);
 

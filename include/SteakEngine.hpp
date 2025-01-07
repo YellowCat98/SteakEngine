@@ -33,7 +33,6 @@ namespace SteakEngine {
         void bindObjc(lua_State* L); // bind all of objective C, relies on bindMethod
 
         int log(lua_State* L);
-        int objc_getClass(lua_State* L);
         int objc_selector(lua_State* L);
     }
 }

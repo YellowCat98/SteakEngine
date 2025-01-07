@@ -38,7 +38,7 @@ bool my_isFullGameUnlocked(id self, SEL _cmd) {
 
 __attribute__((constructor))
 static void initialize() {
-	SteakEngine::log("Hello, world...");
+	SteakEngine::log(@"Hello, world...");
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
 

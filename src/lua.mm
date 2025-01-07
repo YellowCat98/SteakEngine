@@ -58,20 +58,22 @@ void lua::bindObjc(lua_State* L) {
             SteakEngine::log(@"\nUnable to find class");
         }
         const char* className = class_getName(cls);
+        if (strncmp(className, "__", 2) == 0) continue;
 
-            SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
-            lua_pushstring(L, className);
-            lua_newtable(L);
+        SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
+        lua_pushstring(L, className);
+        lua_newtable(L);
 
-            unsigned int numMethods;
-            Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
-            if (!methods) {
-                SteakEngine::log([NSString stringWithFormat:@"Couldn't bind %s methods.", className]);
-            }
-            for (unsigned int j = 0; j < numMethods; j++) {
-                lua::bindMethod(L, cls, methods[j]);
-            }
-            free(methods);
+        unsigned int numMethods;
+        Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
+        if (!methods) {
+            SteakEngine::log([NSString stringWithFormat:@"Couldn't bind %s methods.", className]);
+            continue;
+        }
+        for (unsigned int j = 0; j < numMethods; j++) {
+            lua::bindMethod(L, cls, methods[j]);
+        }
+        free(methods);
 
         lua_settable(L, -3);
     }

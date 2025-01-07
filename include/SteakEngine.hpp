@@ -29,6 +29,8 @@ namespace SteakEngine {
     // bindings and general stuff related to lua
     namespace lua {
         void init(lua_State* L); // unrelated to bindings, this initializes all lua bindings.
+        void bindMethod(lua_State* L, Class cls, Method method); // this binds all methods of a specific class
+        void bindObjc(lua_State* L); // bind all of objective C, relies on bindMethod
 
         int log(lua_State* L);
         int objc_getClass(lua_State* L);

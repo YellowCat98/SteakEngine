@@ -58,7 +58,7 @@ void lua::bindObjc(lua_State* L) {
             SteakEngine::log(@"\nUnable to find class");
         }
         const char* className = class_getName(cls);
-        if (strncmp(className, "__", 2) == 0) continue;
+        if (strncmp(className, "__", 2) == 0 || strncmp(className, "_", 2) == 0) continue;
 
         SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
         lua_pushstring(L, className);

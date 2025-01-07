@@ -9,6 +9,7 @@ void lua::init(lua_State* L) {
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
     const char* name = sel_getName(method_getName(method));
+    SteakEngine::log([NSString stringWithFormat:@"Binding Method %@::%@", class_getName(cls), name]);
     lua_pushstring(L, name);
     lua_pushlightuserdata(L, method);
     lua_pushcclosure(L, [](lua_State* L) -> int {

@@ -10,7 +10,7 @@ void lua::init(lua_State* L) {
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
     const char* name = sel_getName(method_getName(method));
-    lua_pushstring(L, methodName);
+    lua_pushstring(L, name);
     lua_pushlightuserdata(L, method);
     lua_pushcclosure(L, [](lua_State* L) -> int {
         Method method = (Method)lua_touserdata(L, lua_upvalueindex(1));
@@ -19,7 +19,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
         NSMethodSignature *signature = [target methodSignatureForSelector:selector];
         NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
         [invocation setSelector:selector];
-        [invocation setTarget:Target];
+        [invocation setTarget:target];
 
         NSUInteger numArgs = [signature numberOfArguments];
         for (NSUInteger i = 2; i < numArgs; i++) {
@@ -59,14 +59,13 @@ void lua::bindObjc(lua_State* L) {
         lua_newtable(L);
 
         unsigned int numMethods;
-        Method *methods = class_copyMethodList(object_getClass(cls), &numMethods) {
-            for (unsigned int j = 0; j < numMethods; j++) {
-                lua::bindMethod(L, cls, methods[j]);
-            }
-            free(methods);
-
-            lua_settable(L, -3);
+        Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
+        for (unsigned int j = 0; j < numMethods; j++) {
+            lua::bindMethod(L, cls, methods[j]);
         }
+        free(methods);
+
+        lua_settable(L, -3);
     }
     free(classes);
 }

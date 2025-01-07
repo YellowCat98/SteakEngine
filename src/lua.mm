@@ -48,6 +48,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 }
 
 void lua::bindObjc(lua_State* L) {
+    SteakEngine::log(@"\nBinding Objective C and UI thigns");
     unsigned int numClasses;
     Class *classes = objc_copyClassList(&numClasses);
 

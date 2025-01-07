@@ -59,18 +59,19 @@ void lua::bindObjc(lua_State* L) {
         }
         const char* className = class_getName(cls);
 
-        if (strstr(className, "UI") == className || strstr(className, "objc_") == className) {
             SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
             lua_pushstring(L, className);
             lua_newtable(L);
 
             unsigned int numMethods;
             Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
+            if (!methods) {
+                SteakEngine::log([NSString stringWithFormat:@"Couldn't bind %s methods.", className]);
+            }
             for (unsigned int j = 0; j < numMethods; j++) {
                 lua::bindMethod(L, cls, methods[j]);
             }
             free(methods);
-        }
 
         lua_settable(L, -3);
     }

@@ -56,7 +56,7 @@ void lua::bindObjc(lua_State* L) {
         const char* className = class_getName(cls);
 
         if (strstr(className, "UI") == className || strstr(className, "objc_") == className) {
-            SteakEngine::log([NSString stringWithFormat:"Binding class %s", className]);
+            SteakEngine::log([NSString stringWithFormat:@"Binding class %s", className]);
             lua_pushstring(L, className);
             lua_newtable(L);
 

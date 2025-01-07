@@ -53,6 +53,9 @@ void lua::bindObjc(lua_State* L) {
 
     for (unsigned int i = 0; i < numClasses; i++) {
         Class cls = classes[i];
+        if (!cls) {
+            SteakEngine::log(@"\nUnable to find class");
+        }
         const char* className = class_getName(cls);
 
         if (strstr(className, "UI") == className || strstr(className, "objc_") == className) {

@@ -19,14 +19,14 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 
 		if (goodName) {
 			strncpy(goodName, name, nameLen - 1);
-			goodName[len - 1] = '\0';
+			goodName[nameLen - 1] = '\0';
 
 			badName = goodName;
 		}
 	}
 
-	const char* name = goodName;
-	free(goodName);
+	const char* name = badName;
+	free(badName);
 
 	lua_pushstring(L, name);
 	lua_pushlightuserdata(L, method);

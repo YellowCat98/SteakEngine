@@ -8,26 +8,8 @@ void lua::init(lua_State* L) {
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
-	char* badName = strdup(sel_getName(method_getName(method)));
-	SteakEngine::log([NSString stringWithFormat:@"\nBinding Method %s\n", badName]);
-
-	size_t nameLen = strlen(badName);
-
-	if (nameLen > 0 && badName[nameLen - 1] == ':') {
-		SteakEngine::log(@"\nInvalid method name found in method name, will remove it.");
-		char* goodName = (char*)malloc(nameLen);
-
-		if (goodName) {
-			strncpy(goodName, badName, nameLen - 1);
-			goodName[nameLen - 1] = '\0';
-
-			badName = goodName;
-		}
-	}
-
-	const char* name = badName;
-	SteakEngine::log([NSString stringWithFormat:@"\nokay now actually binding %s\n", name]);
-	free(badName);
+	const char* badName = sel_getName(method_getName(method));
+	SteakEngine::log([NSString stringWithFormat:@"\nBinding Method %s\n", name]);
 
 	lua_pushstring(L, name);
 	lua_pushlightuserdata(L, method);

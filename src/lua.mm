@@ -117,6 +117,7 @@ void lua::bindObjc(lua_State* L) {
 	SteakEngine::log(@"\nBinding Objective C and UI thigns");
 	unsigned int numClasses;
 	Class *classes = objc_copyClassList(&numClasses);
+	SteakEngine::log([NSString stringWithFormat:@"\nClasses found: %d", numClasses]);
 
 	for (unsigned int i = 0; i < numClasses; i++) {
 		Class cls = classes[i];
@@ -143,7 +144,7 @@ void lua::bindObjc(lua_State* L) {
 				SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind method %s.", sel_getName(method_getName(methods[j]))]);
 		}
 		free(methods);
-		SteakEngine::log(@"Class has been bound successfully.");
+		SteakEngine::log(@"\nClass has been bound successfully.");
 
 		lua_settable(L, -3);
 	}

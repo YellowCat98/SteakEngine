@@ -71,7 +71,10 @@ void lua::bindObjc(lua_State* L) {
             continue;
         }
         for (unsigned int j = 0; j < numMethods; j++) {
-            lua::bindMethod(L, cls, methods[j]);
+            if (methods[j])
+                lua::bindMethod(L, cls, methods[j]);
+            else
+                SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind method %s.", sel_getName(method_getName(methods[j]))]);
         }
         free(methods);
 

@@ -22,9 +22,18 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 
 		if (!selector) {
 			SteakEngine::log(@"\nFailed to get selector.");
+			lua_pushnil(L);
+			return 1;
 		}
 
 		id target = (__bridge id)lua_touserdata(L, 1);
+
+		if (!target) {
+			SteakEngine::log(@"\nFailed to get target.");
+			lua_pushnil(L);
+			return 1;
+		}
+
 		NSMethodSignature *signature = [target methodSignatureForSelector:selector];
 
 		if (!signature) {

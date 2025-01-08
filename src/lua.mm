@@ -3,7 +3,7 @@
 using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
-	lua_register(L, "Log", lua::log);
+	lua_register(L, "log", lua::log);
 	lua::bindObjc(L);
 }
 
@@ -11,7 +11,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 	const char* name = sel_getName(method_getName(method));
 	
 
-	if (strcmp(name, "class") == 0) return;
+	if (strcmp(name, "class") == 0 || strcmp(name, "initialize") == 0) return;
 	SteakEngine::log([NSString stringWithFormat:@"\nBinding Method %s\n", name]);
 
 	lua_pushstring(L, name);
@@ -62,7 +62,7 @@ void lua::bindObjc(lua_State* L) {
 			SteakEngine::log(@"\nUnable to find class");
 		}
 		const char* className = class_getName(cls);
-		if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0) continue;
+		if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0) continue;
 
 		SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 		lua_pushstring(L, className);

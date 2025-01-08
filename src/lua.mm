@@ -120,7 +120,6 @@ void lua::bindObjc(lua_State* L) {
 	SteakEngine::log([NSString stringWithFormat:@"\nClasses found: %d", numClasses]);
 
 	for (unsigned int i = 0; i < numClasses; i++) {
-		SteakEngine::log(@"\nThe.");
 		Class cls = classes[i];
 		if (!cls) {
 			SteakEngine::log(@"\nUnable to find class");
@@ -146,7 +145,7 @@ void lua::bindObjc(lua_State* L) {
 		}
 		free(methods);
 
-		lua_pushvalue(L, -3);
+		lua_pushglobaltable(L);
 		lua_settable(L, -3);
 		SteakEngine::log(@"\nClass has been bound successfully.");
 	}

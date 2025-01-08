@@ -19,6 +19,11 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 	lua_pushcclosure(L, [](lua_State* L) -> int {
 		Method method = (Method)lua_touserdata(L, lua_upvalueindex(1));
 		SEL selector = method_getName(method);
+
+		if (!selector) {
+			SteakEngine::log(@"\nFailed to get selector.");
+		}
+
 		id target = (__bridge id)lua_touserdata(L, 1);
 		NSMethodSignature *signature = [target methodSignatureForSelector:selector];
 

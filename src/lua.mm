@@ -125,7 +125,7 @@ void lua::bindObjc(lua_State* L) {
 			SteakEngine::log(@"\nUnable to find class");
 		}
 		const char* className = class_getName(cls);
-		//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0) continue;
+		if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0) continue;
 
 		SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 		lua_pushstring(L, className);
@@ -149,6 +149,7 @@ void lua::bindObjc(lua_State* L) {
 		lua_settable(L, -3);
 	}
 	free(classes);
+	SteakEngine::log(@"\nAll of OBJC has been bound to lua (this was a terrible idea)");
 }
 
 int lua::log(lua_State* L) {

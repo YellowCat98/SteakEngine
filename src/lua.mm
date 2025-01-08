@@ -26,6 +26,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 	}
 
 	const char* name = badName;
+	SteakEngine::log([NSString stringWithFormat:@"\nokay now actually binding %s\n", name]);
 	free(badName);
 
 	lua_pushstring(L, name);

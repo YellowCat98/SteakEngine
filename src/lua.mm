@@ -13,12 +13,12 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 
 	size_t nameLen = strlen(badName);
 
-	if (nameLen > 0 && name[nameLen - 1] == ':') {
+	if (nameLen > 0 && badName[nameLen - 1] == ':') {
 		SteakEngine::log(@"\nInvalid method name found in method name, will remove it.");
 		char* goodName = (char*)malloc(nameLen);
 
 		if (goodName) {
-			strncpy(goodName, name, nameLen - 1);
+			strncpy(goodName, badName, nameLen - 1);
 			goodName[nameLen - 1] = '\0';
 
 			badName = goodName;

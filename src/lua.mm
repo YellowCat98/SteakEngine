@@ -146,6 +146,7 @@ void lua::bindObjc(lua_State* L) {
 		}
 		free(methods);
 
+		lua_pushvalue(L, -3);
 		lua_settable(L, -3);
 		SteakEngine::log(@"\nClass has been bound successfully.");
 	}

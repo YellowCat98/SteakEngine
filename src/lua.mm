@@ -8,7 +8,7 @@ void lua::init(lua_State* L) {
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
-	const char* badName = sel_getName(method_getName(method));
+	const char* name = sel_getName(method_getName(method));
 	SteakEngine::log([NSString stringWithFormat:@"\nBinding Method %s\n", name]);
 
 	lua_pushstring(L, name);

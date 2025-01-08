@@ -26,6 +26,8 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
+		SteakEngine::log(@"\nSelector obtained.");
+
 		id target = (__bridge id)lua_touserdata(L, 1);
 
 		if (!target) {
@@ -34,11 +36,15 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
+		
+
 		if (![target respondsToSelector:selector]) {
             SteakEngine::log([NSString stringWithFormat:@"\nTarget does not respond to selector %@", NSStringFromSelector(selector)]);
             lua_pushnil(L);
             return 1;
         }
+
+		SteakEngine::log(@"\nTarget obtained and responds to selector.");
 
 		NSMethodSignature *signature = [target methodSignatureForSelector:selector];
 
@@ -48,6 +54,8 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
+		SteakEngine::log(@"\nSignature obtained.");
+
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
 
 		if (!invocation) {
@@ -56,8 +64,12 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
+		SteakEngine::log(@"\nInvocation created");
+
 		[invocation setSelector:selector];
 		[invocation setTarget:target];
+
+		SteakEngine::log(@"\nInvocation set selector and target.");
 
 		NSUInteger numArgs = [signature numberOfArguments];
 		for (NSUInteger i = 2; i < numArgs; i++) {
@@ -98,6 +110,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 		return 1;
 	}, 1);
 	lua_settable(L, -3);
+	SteakEngine::log(@"\nMethod has been bound successfully.");
 }
 
 void lua::bindObjc(lua_State* L) {

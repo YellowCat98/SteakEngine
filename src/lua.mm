@@ -143,6 +143,7 @@ void lua::bindObjc(lua_State* L) {
 				SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind method %s.", sel_getName(method_getName(methods[j]))]);
 		}
 		free(methods);
+		SteakEngine::log(@"Class has been bound successfully.");
 
 		lua_settable(L, -3);
 	}

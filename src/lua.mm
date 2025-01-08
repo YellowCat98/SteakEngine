@@ -110,7 +110,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 		return 1;
 	}, 1);
 	lua_settable(L, -3);
-	SteakEngine::log(@"\nMethod has been bound successfully.");
+	SteakEngine::log(@"\nMethod has been bound successfully.\n");
 }
 
 void lua::bindObjc(lua_State* L) {
@@ -120,6 +120,7 @@ void lua::bindObjc(lua_State* L) {
 	SteakEngine::log([NSString stringWithFormat:@"\nClasses found: %d", numClasses]);
 
 	for (unsigned int i = 0; i < numClasses; i++) {
+		SteakEngine::log(@"\nThe.");
 		Class cls = classes[i];
 		if (!cls) {
 			SteakEngine::log(@"\nUnable to find class");

@@ -34,6 +34,12 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
+		if (![target respondsToSelector:selector]) {
+            SteakEngine::log([NSString stringWithFormat:@"\nTarget does not respond to selector %@", NSStringFromSelector(selector)]);
+            lua_pushnil(L);
+            return 1;
+        }
+
 		NSMethodSignature *signature = [target methodSignatureForSelector:selector];
 
 		if (!signature) {
@@ -46,6 +52,8 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 
 		if (!invocation) {
 			SteakEngine::log(@"\nFailed to create invocation.");
+			lua_pushnil(L);
+			return 1;
 		}
 
 		[invocation setSelector:selector];
@@ -58,8 +66,19 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 				[invocation setArgument:&value atIndex:i];
 			} else if (lua_isstring(L, (int)(i - 1))) {
 				const char* value = lua_tostring(L, (int)(i - 1));
-				NSString *str = [NSString stringWithUTF8String:value];
-				[invocation setArgument:&str atIndex:i];
+
+				if (value) {
+					NSString *str = [NSString stringWithUTF8String:value];
+                    [invocation setArgument:&str atIndex:i];
+				} else {
+					SteakEngine::log(@"\nNull string argument passed to method.");
+					lua_pushnil(L);
+					return 1;
+				}
+			} else {
+				SteakEngine::log([NSString stringWithFormat:@"\nUnsupported argument type at index %lu.", (unsigned long)i]);
+				lua_pushnil(L);
+				return 1;
 			}
 		}
 
@@ -68,7 +87,11 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 		if ([signature methodReturnLength] > 0) {
 			void *returnValue;
 			[invocation getReturnValue:&returnValue];
-			lua_pushlightuserdata(L, returnValue);
+			if (returnValue) {
+				lua_pushlightuserdata(L, returnValue);
+			} else {
+				lua_pushnil(L);
+			}
 		} else {
 			lua_pushnil(L);
 		}

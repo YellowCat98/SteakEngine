@@ -115,7 +115,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 
 void lua::bindClass(lua_State* L, const char* className) {
 	SteakEngine::log(@"\nBinding UI stuff.............");
-	Class cls = objc_getClass(name);
+	Class cls = objc_getClass(className);
 
 	if (!cls) {
 		SteakEngine::log(@"\nUnable to find class");

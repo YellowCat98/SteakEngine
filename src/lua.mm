@@ -127,7 +127,7 @@ void lua::bindObjc(lua_State* L) {
 		const char* className = class_getName(cls);
 		//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0 || strncmp(className, "Foundation", 10) == 0 || strncmp(className, "ChartboostSDK", 13) == 0 || strncmp(className, "AppProtection", 13) == 0) continue;
 
-		if (strncmp(className, "UI", 2) != 0 && strncmp(className, "objc", 4) != 0) continue;
+		if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
 
 		SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 		lua_pushstring(L, className);
@@ -152,7 +152,6 @@ void lua::bindObjc(lua_State* L) {
 		SteakEngine::log(@"\nClass has been bound successfully.");
 	}
 	free(classes);
-	SteakEngine::log(@"\nAll of OBJC has been bound to lua (this was a terrible idea)");
 }
 
 int lua::log(lua_State* L) {

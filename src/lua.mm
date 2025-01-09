@@ -4,7 +4,7 @@ using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);
-	lua::bindObjc(L);
+	lua::bindUI(L, objc_getClass("Class"));
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
@@ -113,45 +113,38 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 	SteakEngine::log(@"\nMethod has been bound successfully.\n");
 }
 
-void lua::bindObjc(lua_State* L) {
-	SteakEngine::log(@"\nBinding Objective C and UI thigns");
-	unsigned int numClasses;
-	Class *classes = objc_copyClassList(&numClasses);
-	SteakEngine::log([NSString stringWithFormat:@"\nClasses found: %d", numClasses]);
+void lua::bindClass(lua_State* L, const char* className) {
+	SteakEngine::log(@"\nBinding UI stuff.............");
+	Class cls = objc_getClass(name);
 
-	for (unsigned int i = 0; i < numClasses; i++) {
-		Class cls = classes[i];
-		if (!cls) {
-			SteakEngine::log(@"\nUnable to find class");
-		}
-		const char* className = class_getName(cls);
-		//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0 || strncmp(className, "Foundation", 10) == 0 || strncmp(className, "ChartboostSDK", 13) == 0 || strncmp(className, "AppProtection", 13) == 0) continue;
-
-		if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
-
-		SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
-		lua_pushstring(L, className);
-		lua_newtable(L);
-
-		unsigned int numMethods;
-		Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
-		if (!methods) {
-			SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind %s methods.", className]);
-			continue;
-		}
-		for (unsigned int j = 0; j < numMethods; j++) {
-			if (methods[j])
-				lua::bindMethod(L, cls, methods[j]);
-			else
-				SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind method %s.", sel_getName(method_getName(methods[j]))]);
-		}
-		free(methods);
-
-		lua_pushglobaltable(L);
-		lua_settable(L, -2);
-		SteakEngine::log(@"\nClass has been bound successfully.");
+	if (!cls) {
+		SteakEngine::log(@"\nUnable to find class");
 	}
-	free(classes);
+	//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0 || strncmp(className, "Foundation", 10) == 0 || strncmp(className, "ChartboostSDK", 13) == 0 || strncmp(className, "AppProtection", 13) == 0) continue;
+
+	//if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
+
+	SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
+	lua_pushstring(L, className);
+	lua_newtable(L);
+
+	unsigned int numMethods;
+	Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
+	if (!methods) {
+		SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind %s methods.", className]);
+		continue;
+	}
+	for (unsigned int j = 0; j < numMethods; j++) {
+		if (methods[j])
+			lua::bindMethod(L, cls, methods[j]);
+		else
+			SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind method %s.", sel_getName(method_getName(methods[j]))]);
+	}
+	free(methods);
+
+	lua_pushglobaltable(L);
+	lua_settable(L, -2);
+	SteakEngine::log(@"\nClass has been bound successfully.");
 }
 
 int lua::log(lua_State* L) {

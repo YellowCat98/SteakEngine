@@ -45,6 +45,7 @@ static void initialize() {
 	SteakEngine::lua::init(L);
 
 	Class targetClass = objc_getClass("LevelSelectorView");
+	/*
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
 	} else {
@@ -67,6 +68,7 @@ static void initialize() {
 
 		free(methods);
 	}
+	*/
 	
 
 	//SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);

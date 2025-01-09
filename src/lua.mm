@@ -127,7 +127,7 @@ void lua::bindObjc(lua_State* L) {
 		const char* className = class_getName(cls);
 		//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0 || strncmp(className, "Foundation", 10) == 0 || strncmp(className, "ChartboostSDK", 13) == 0 || strncmp(className, "AppProtection", 13) == 0) continue;
 
-		if (strncmp(className, "NS", 2) != 0 && strncmp(className, "objc", 4) != 0) continue;
+		if (strncmp(className, "UI", 2) != 0 && strncmp(className, "objc", 4) != 0) continue;
 
 		SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 		lua_pushstring(L, className);

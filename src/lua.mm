@@ -4,7 +4,7 @@ using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);
-	lua::bindClass(L, objc_getClass("Class"));
+	lua::bindClass(L, "Class");
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
@@ -157,17 +157,4 @@ int lua::log(lua_State* L) {
 	SteakEngine::log([NSString stringWithUTF8String:message]);
 
 	return 0;
-}
-
-int lua::objc_selector(lua_State* L) {
-	if (lua_gettop(L) < 1 || !lua_isstring(L, 1)) {
-		lua_pushstring(L, "Expected a string argument.");
-		lua_error(L);
-	}
-
-	SEL selector = NSSelectorFromString([NSString stringWithUTF8String:lua_tostring(L, 1)]);
-
-	lua_pushlightuserdata(L, (void *)selector);
-
-	return 1;
 }

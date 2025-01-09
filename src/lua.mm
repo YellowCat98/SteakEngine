@@ -4,7 +4,7 @@ using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);
-	lua::bindUI(L, objc_getClass("Class"));
+	lua::bindClass(L, objc_getClass("Class"));
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {
@@ -132,7 +132,6 @@ void lua::bindClass(lua_State* L, const char* className) {
 	Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
 	if (!methods) {
 		SteakEngine::log([NSString stringWithFormat:@"\nCouldn't bind %s methods.", className]);
-		continue;
 	}
 	for (unsigned int j = 0; j < numMethods; j++) {
 		if (methods[j])

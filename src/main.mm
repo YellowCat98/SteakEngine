@@ -75,7 +75,17 @@ static void initialize() {
 	//SteakEngine::swizzleMethod<long long, id, SEL>(objc_getClass("GameUser"), @selector(meatsCount), GameUser_meatsCount, my_meatsCount);
 	SteakEngine::swizzleMethod<bool, id, SEL>(objc_getClass("GameUser"), @selector(isFullGameUnlocked), GameUser_isFullGameUnlocked, my_isFullGameUnlocked);
 
-	if (luaL_dostring(L, "objc_getClass('GameUser')") != LUA_OK) {
+	if (luaL_dostring(L, R"(
+local view = UIView:new();
+
+local label = UILabel:new()
+label:setText("ASIJODJADIOJDAS")
+label:setFrame(10, 10, 300, 50)
+view:addSubview(label)
+
+
+
+)") != LUA_OK) {
 		SteakEngine::log([@"Error: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);
 	}
 

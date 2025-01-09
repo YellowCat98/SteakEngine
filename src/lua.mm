@@ -4,7 +4,23 @@ using namespace SteakEngine;
 
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);
-	lua::bindClass(L, "Class");
+	lua::bindClass(L, "UIView");
+	lua::bindClass(L, "UILabel");
+	lua::bindClass(L, "UIButton");
+	lua::bindClass(L, "UITextField");
+	lua::bindClass(L, "UITextView");
+	lua::bindClass(L, "UIImageView");
+	lua::bindClass(L, "UISlider");
+	lua::bindClass(L, "UISwitch");
+	lua::bindClass(L, "UITableView");
+	lua::bindClass(L, "UICollectionView");
+	lua::bindClass(L, "UIStackView");
+	lua::bindClass(L, "UIActivityIndicatorView");
+	lua::bindClass(L, "UIAlertController");
+	lua::bindClass(L, "UIScrollView");
+	lua::bindClass(L, "UIDatePicker");
+	lua::bindClass(L, "UIPickerView");
+	lua::bindClass(L, "UIPageViewController");
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {

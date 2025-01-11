@@ -21,7 +21,7 @@ void lua::init(lua_State* L) {
 	lua::bindClass(L, "UIDatePicker");
 	lua::bindClass(L, "UIPickerView");
 	lua::bindClass(L, "UIPageViewController");
-	lua::bindClass(L, "UIViewController")
+	lua::bindClass(L, "UIViewController");
 }
 
 void lua::bindMethod(lua_State* L, Class cls, Method method) {

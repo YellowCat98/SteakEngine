@@ -177,7 +177,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 	free(methods);
 
 	//lua_pushglobaltable(L);
-	lua_settable(L, -2);
+	lua_settable(L, -3);
 
 	lua_getglobal(L, className);
 	if (!lua_isnil(L, -1)) {

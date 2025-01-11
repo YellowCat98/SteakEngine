@@ -76,7 +76,7 @@ static void initialize() {
 	SteakEngine::swizzleMethod<bool, id, SEL>(objc_getClass("GameUser"), @selector(isFullGameUnlocked), GameUser_isFullGameUnlocked, my_isFullGameUnlocked);
 
 	if (luaL_dostring(L, R"(
-local view = UIView:iadsiasodiosda()
+local view = dsajisadijoadsjo:new()
 
 local label = UILabel:create()
 label:setText("ASIJODJADIOJDAS")

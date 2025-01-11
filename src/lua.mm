@@ -144,6 +144,26 @@ void lua::bindClass(lua_State* L, const char* className) {
 	lua_pushstring(L, className);
 	lua_newtable(L);
 
+	// Bind constructor (alloc + init or custom init)
+	Method initMethod = class_getInstanceMethod(cls, sel_registerName("init"));
+	if (initMethod) {
+		lua_pushstring(L, "new");
+		lua_pushcfunction(L, [](lua_State* L) -> int {
+			// Call alloc and init
+			Class cls = (__bridge Class)lua_touserdata(L, 1);
+			id instance = [[cls alloc] init];
+			if (instance) {
+				lua_pushlightuserdata(L, (__bridge void*)instance);
+			} else {
+				lua_pushnil(L);
+			}
+			return 1;
+		});
+		lua_settable(L, -3);
+	} else {
+		SteakEngine::log([NSString stringWithFormat:@"\nNo constructor found for class %s", className]);
+	}
+
 	unsigned int numMethods;
 	Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
 	if (!methods) {

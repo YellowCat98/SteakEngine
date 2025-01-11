@@ -178,7 +178,13 @@ void lua::bindClass(lua_State* L, const char* className) {
 
 	lua_pushglobaltable(L);
 	lua_settable(L, -2);
-	SteakEngine::log(@"\nClass has been bound successfully.");
+
+	lua_getglobal(L, className);
+	if (!lua_isnil(L, -1)) {
+		SteakEngine::log(@"\nClass has been bound successfully.");
+	} else {
+		SteakEngine::log(@"\nClass is nil...");
+	}
 }
 
 int lua::log(lua_State* L) {

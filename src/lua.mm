@@ -176,7 +176,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 	}
 	free(methods);
 
-	lua_pushglobaltable(L);
+	//lua_pushglobaltable(L);
 	lua_settable(L, -2);
 
 	lua_getglobal(L, className);

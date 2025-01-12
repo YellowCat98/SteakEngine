@@ -134,11 +134,14 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 }
 
 void lua::bindClass(lua_State* L, const char* className) {
-	cls = objc_getClass(className);
+	Class cls = objc_getClass(className);
 
 	if (!cls) {
 		SteakEngine::log(@"\nUnable to find class");
+		return;
 	}
+
+	lua::lastBoundClass = cls;
 	//if ((strncmp(className, "__", 2) == 0 || (className[0] == '_' && className[1] != '_')) || strcmp(className, "Object") == 0 || strncmp(className, "CK", 2) == 0 || strncmp(className, "Test", 4) == 0 || strncmp(className, "JS", 2) == 0 || strncmp(className, "Foundation", 10) == 0 || strncmp(className, "ChartboostSDK", 13) == 0 || strncmp(className, "AppProtection", 13) == 0) continue;
 
 	//if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
@@ -150,12 +153,12 @@ void lua::bindClass(lua_State* L, const char* className) {
     lua_pushstring(L, "create");
     lua_pushcfunction(L, [](lua_State* L) -> int {
         //Class cls = (__bridge Class)lua_touserdata(L, 1);
-		if (!cls) {
+		if (!lua::lastBoundClass) {
 			SteakEngine::log(@"\nCreate method: class is nil.");
 			lua_pushnil(L);
 			return 1;
 		}
-        id instance = [[cls alloc] init];  // alloc + init
+        id instance = [[lua::lastBoundClass alloc] init];  // alloc + init
         if (instance) {
             lua_pushlightuserdata(L, (__bridge void*)instance);
         } else {

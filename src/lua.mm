@@ -131,7 +131,6 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 }
 
 void lua::bindClass(lua_State* L, const char* className) {
-	SteakEngine::log(@"\nBinding UI stuff.............");
 	Class cls = objc_getClass(className);
 
 	if (!cls) {
@@ -174,7 +173,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 	}
 	free(methods);
 
-	lua_settable(L, -1);
+	//lua_settable(L, -1);
 	lua_setglobal(L, className);
 
 	lua_getglobal(L, className);
@@ -183,6 +182,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 	} else {
 		SteakEngine::log(@"\nClass is nil...");
 	}
+	lua_pop(L, 1);
 }
 
 int lua::log(lua_State* L) {

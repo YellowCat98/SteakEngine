@@ -161,6 +161,7 @@ void lua::bindClass(lua_State* L, const char* className) {
         if (instance) {
             lua_pushlightuserdata(L, (__bridge void*)instance);
         } else {
+			SteakEngine::log(@"\nCreate method: instance is nil.");
             lua_pushnil(L);
         }
         return 1;

@@ -78,7 +78,15 @@ static void initialize() {
 	if (luaL_dostring(L, R"(
 local view = UIView:create()
 
+if not view then
+	log("\nView is nil")
+end
+
 local label = UILabel:create()
+if not label then
+	log("\nLabel is nil")
+end
+
 label:setText("ASIJODJADIOJDAS")
 label:setFrame(10, 10, 300, 50)
 view:addSubview(label)

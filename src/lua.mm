@@ -148,20 +148,18 @@ void lua::bindClass(lua_State* L, const char* className) {
     Method allocMethod = class_getClassMethod(cls, sel_registerName("alloc"));
     Method initMethod = class_getInstanceMethod(cls, sel_registerName("init"));
 
-    if (allocMethod && initMethod) {
-        lua_pushstring(L, "create");
-        lua_pushcfunction(L, [](lua_State* L) -> int {
-            Class cls = (__bridge Class)lua_touserdata(L, 1);
-            id instance = [[cls alloc] init];  // alloc + init
-            if (instance) {
-                lua_pushlightuserdata(L, (__bridge void*)instance);
-            } else {
-                lua_pushnil(L);
-            }
-            return 1;
-        });
-        lua_settable(L, -3);
-    }
+    lua_pushstring(L, "create");
+    lua_pushcfunction(L, [](lua_State* L) -> int {
+        Class cls = (__bridge Class)lua_touserdata(L, 1);
+        id instance = [[cls alloc] init];  // alloc + init
+        if (instance) {
+            lua_pushlightuserdata(L, (__bridge void*)instance);
+        } else {
+            lua_pushnil(L);
+        }
+        return 1;
+    });
+    lua_settable(L, -3);
 
 	unsigned int numMethods;
 	Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);
@@ -176,8 +174,8 @@ void lua::bindClass(lua_State* L, const char* className) {
 	}
 	free(methods);
 
-	//lua_pushglobaltable(L);
 	lua_settable(L, -1);
+	lua_setglobal(L, className);
 
 	lua_getglobal(L, className);
 	if (!lua_isnil(L, -1)) {

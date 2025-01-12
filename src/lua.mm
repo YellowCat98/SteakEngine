@@ -147,7 +147,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 
 	//SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 	//lua_pushstring(L, className);
-	luaL_newmetatable(L);
+	luaL_newmetatable(L, className);
 
 	lua_pushstring(L, "__index");
 	lua_pushcfunction(L, [](lua_State* L) -> int {

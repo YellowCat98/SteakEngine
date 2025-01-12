@@ -2,8 +2,8 @@
 
 using namespace SteakEngine;
 
-Class SteakEngine::lua::lastClassBound = Nil;
-using cls = SteakEngine::lua::lastClassBound;
+Class SteakEngine::lua::lastBoundClass = Nil;
+using cls = SteakEngine::lua::lastBoundClass;
 
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);

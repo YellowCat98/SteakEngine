@@ -145,9 +145,41 @@ void lua::bindClass(lua_State* L, const char* className) {
 
 	//if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
 
-	SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
-	lua_pushstring(L, className);
-	lua_newtable(L);
+	//SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
+	//lua_pushstring(L, className);
+	lua_newmetatable(L);
+
+	lua_pushstring(L, "__index")''
+	lua_pushcfunction(L, [](lua_State* L) -> int {
+		id instance = (__bridge id)lua_touserdata(L, 1);
+
+		const char* key = lua_tostring(2);
+
+		if (key) {
+
+			SEL selector = sel_registerName(key);
+			if ([instance respondsToSelector:selector]) {
+				NSMethodSignature *signature = [instance methodSignatureForSelector:selector];
+				NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+				[invocation setSelector:selector];
+				[invocation setTarget:instance];
+				[invocation invoke];
+
+				if ([signature methodReturnLength] > 0) {
+					void *returnValue;
+					[invocation getReturnValue:&returnValue];
+					lua_pushlightuserdata(L, returnValue);
+					return 1;
+				} else {
+					lua_pushnil(L);
+					return 1;
+				}
+			}
+		}
+		lua_pushnil(L);
+		return 1;
+	});
+	lua_settable(L, -3);
 
     lua_pushstring(L, "create");
     lua_pushcfunction(L, [](lua_State* L) -> int {

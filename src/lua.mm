@@ -2,6 +2,9 @@
 
 using namespace SteakEngine;
 
+Class SteakEngine::lua::lastClassBound = Nil;
+using cls = SteakEngine::lua::lastClassBound;
+
 void lua::init(lua_State* L) {
 	lua_register(L, "log", lua::log);
 	lua::bindClass(L, "UIView");
@@ -131,7 +134,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 }
 
 void lua::bindClass(lua_State* L, const char* className) {
-	Class cls = objc_getClass(className);
+	cls = objc_getClass(className);
 
 	if (!cls) {
 		SteakEngine::log(@"\nUnable to find class");
@@ -145,7 +148,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 	lua_newtable(L);
 
     lua_pushstring(L, "create");
-    lua_pushcfunction(L, [cls](lua_State* L) -> int {
+    lua_pushcfunction(L, [](lua_State* L) -> int {
         //Class cls = (__bridge Class)lua_touserdata(L, 1);
 		if (!cls) {
 			SteakEngine::log(@"\nCreate method: class is nil.");

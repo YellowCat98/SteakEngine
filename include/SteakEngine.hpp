@@ -33,5 +33,7 @@ namespace SteakEngine {
         void bindClass(lua_State* L, const char* className); // bind Thingies...
 
         int log(lua_State* L);
+
+        extern Class lastBoundClass;
     }
 }

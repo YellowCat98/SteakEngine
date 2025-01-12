@@ -144,12 +144,14 @@ void lua::bindClass(lua_State* L, const char* className) {
 	lua_pushstring(L, className);
 	lua_newtable(L);
 
-    Method allocMethod = class_getClassMethod(cls, sel_registerName("alloc"));
-    Method initMethod = class_getInstanceMethod(cls, sel_registerName("init"));
-
     lua_pushstring(L, "create");
     lua_pushcfunction(L, [](lua_State* L) -> int {
         Class cls = (__bridge Class)lua_touserdata(L, 1);
+		if (!cls) {
+			SteakEngine::log(@"\nCreate method: class is nil.");
+			lua_pushnil(L);
+			return 1;
+		}
         id instance = [[cls alloc] init];  // alloc + init
         if (instance) {
             lua_pushlightuserdata(L, (__bridge void*)instance);

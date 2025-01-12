@@ -145,8 +145,8 @@ void lua::bindClass(lua_State* L, const char* className) {
 	lua_newtable(L);
 
     lua_pushstring(L, "create");
-    lua_pushcfunction(L, [](lua_State* L) -> int {
-        Class cls = (__bridge Class)lua_touserdata(L, 1);
+    lua_pushcfunction(L, [cls](lua_State* L) -> int {
+        //Class cls = (__bridge Class)lua_touserdata(L, 1);
 		if (!cls) {
 			SteakEngine::log(@"\nCreate method: class is nil.");
 			lua_pushnil(L);

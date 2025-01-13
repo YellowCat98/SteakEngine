@@ -145,7 +145,7 @@ void lua::bindClass(lua_State* L, const char* className) {
 
 	//if (!(strncmp(className, "UI", 2) == 0 || strncmp(className, "objc", 4) == 0 || strncmp(className, "UIKit", 5))) continue;
 
-	//SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
+	SteakEngine::log([NSString stringWithFormat:@"\nBinding class %s", className]);
 	//lua_pushstring(L, className);
 	luaL_newmetatable(L, className);
 

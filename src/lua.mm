@@ -181,6 +181,60 @@ void lua::bindClass(lua_State* L, const char* className) {
 	});
 	lua_settable(L, -3);
 
+	lua_pushstring(L, "__newindex");
+	lua_pushcfunction(L, [](lua_State* L) -> int {
+		id instance = (__bridge id)lua_touserdata(L, 1);
+		const char* key = lua_tostring(L, 2);
+		if (!instance || !key) {
+			lua_pushstring(L, "Invalid object or key");
+			lua_error(L);
+			return 0;
+		}
+
+		std::string setterName = "set";
+		setterName += toupper(key[0]);
+		setterName += (key + 1);
+		setterName += ":";
+
+		SEL setter = sel_registerName(setterName.c_str());
+		if ([instance respondsToSelector:setter]) {
+			NSMethodSignature* signature = [instance methodSignatureForSelector:setter];
+			if (signature.numberOfArguments != 3) {
+				lua_pushstring(L, "Invalid setter signature.");
+				lua_error(L);
+				return 0;
+			}
+
+			NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+			[invocation setSelector:setter];
+			[invocation setTarget:instance];
+
+			if (lua_isnumber(L, 3)) {
+				double value = lua_tonumber(L, 3);
+				[invocation setArgument:&value atIndex:2];
+			} else if (lua_isstring(L, 3)) {
+				const char* value = lua_tostring(L, 3);
+				NSString *objValue = [NSString stringWithUTF8String:value];
+				[invocation setArgument:&objValue atIndex:2];
+			} else if (lua_isuserdata(L, 3)) {
+				void* value = lua_touserdata(L, 3);
+				[invocation setArgument:&value atIndex:2];
+			} else {
+				lua_pushstring(L, "Unsupported value type");
+				lua_error(L);
+				return 0;
+			}
+
+			[invocation invoke];
+			return 0;
+		}
+
+		lua_pushstring(L, "Setter not found");
+		lua_error(L);
+		return 0;
+	});
+	lua_settable(L, -3);
+
     lua_pushstring(L, "create");
     lua_pushcfunction(L, [](lua_State* L) -> int {
         //Class cls = (__bridge Class)lua_touserdata(L, 1);

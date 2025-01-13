@@ -87,7 +87,7 @@ if not label then
 	log("\nLabel is nil")
 end
 
-label:setText("ASIJODJADIOJDAS")
+label.text = "ASIJODJADIOJDAS"
 label:setFrame(10, 10, 300, 50)
 view:addSubview(label)
 )") != LUA_OK) {

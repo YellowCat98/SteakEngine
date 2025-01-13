@@ -131,14 +131,14 @@ void lua::bindIVar(lua_State* L, Class cls, Ivar ivar) {
 	std::string getterName = [NSString stringWithUTF8String:name];
 	getterName = getterName.substr(1);
 
-	SteakEngine::log([NSString stringWithFormat:@"\nBinding Instance variables %s\n", getterName]);
+	SteakEngine::log([NSString stringWithFormat:@"\nBinding Instance variables %s\n", getterName.c_str()]);
 
 	lua_pushstring(L, getterName.c_str());
 	lua_pushcfunction(L, [](lua_State* L) -> int {
 		id instance = (__bridge id)lua_touserdata(L, 1);
 		const char* key = lua_tostring(L, 2);
 		if (key) {
-			Ivar ivar = class_getinstanceVariable([instance class], key);
+			Ivar ivar = class_getInstanceVariable([instance class], key);
 			if (ivar) {
 				void* value = object_getIvar(instance, ivar);
 				lua_pushlightuserdata(L, value);

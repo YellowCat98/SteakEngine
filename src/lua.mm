@@ -45,8 +45,6 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
-		SteakEngine::log(@"\nSelector obtained.");
-
 		id target = (__bridge id)lua_touserdata(L, 1);
 
 		if (!target) {
@@ -63,8 +61,6 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
             return 1;
         }
 
-		SteakEngine::log(@"\nTarget obtained and responds to selector.");
-
 		NSMethodSignature *signature = [target methodSignatureForSelector:selector];
 
 		if (!signature) {
@@ -73,7 +69,6 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
-		SteakEngine::log(@"\nSignature obtained.");
 
 		NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
 
@@ -83,12 +78,10 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 			return 1;
 		}
 
-		SteakEngine::log(@"\nInvocation created");
 
 		[invocation setSelector:selector];
 		[invocation setTarget:target];
 
-		SteakEngine::log(@"\nInvocation set selector and target.");
 
 		NSUInteger numArgs = [signature numberOfArguments];
 		for (NSUInteger i = 2; i < numArgs; i++) {
@@ -130,6 +123,32 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 	}, 1);
 	lua_settable(L, -3);
 	SteakEngine::log(@"\nMethod has been bound successfully.\n");
+}
+
+void lua::bindIVar(lua_State* L, Class cls, Ivar ivar) {
+	const char* name = ivar_getName(ivar);
+
+	std::string getterName = [NSString stringWithUTF8String:name];
+	getterName = getterName.substr(1);
+
+	SteakEngine::log([NSString stringWithFormat:@"\nBinding Instance variables %s\n", getterName]);
+
+	lua_pushstring(L, getterName.c_str());
+	lua_pushcfunction(L, [](lua_State* L) -> int {
+		id instance = (__bridge id)lua_touserdata(L, 1);
+		const char* key = lua_tostring(L, 2);
+		if (key) {
+			Ivar ivar = class_getinstanceVariable([instance class], key);
+			if (ivar) {
+				void* value = object_getIvar(instance, ivar);
+				lua_pushlightuserdata(L, value);
+				return 1;
+			}
+		}
+		lua_pushnil(L);
+		return 1;
+	});
+	lua_settable(L, -3);
 }
 
 void lua::bindClass(lua_State* L, const char* className) {
@@ -253,6 +272,17 @@ void lua::bindClass(lua_State* L, const char* className) {
         return 1;
     });
     lua_settable(L, -3);
+
+	unsigned int numIvars;
+	Ivar* ivars = class_copyIvarList(cls, &numIvars);
+	if (ivars) {
+		for (unsigned int j = 0; j < numIvars; j++){
+			if (ivars[j]) 
+				lua::bindIVar(L, cls, ivars[j]);
+			else
+				SteakEngine::log(@"\nUnable to bind iVar.");
+		}
+	}
 
 	unsigned int numMethods;
 	Method *methods = class_copyMethodList(object_getClass(cls), &numMethods);

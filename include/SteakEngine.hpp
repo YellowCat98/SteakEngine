@@ -32,6 +32,8 @@ namespace SteakEngine {
         void init(lua_State* L); // unrelated to bindings, this initializes all lua bindings.
         void bindMethod(lua_State* L, Class cls, Method method); // this binds all methods of a specific class
         void bindClass(lua_State* L, const char* className); // bind Thingies...
+        void bindIVar(lua_State* L, Class cls, Ivar ivar);
+
 
         int log(lua_State* L);
 

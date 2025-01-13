@@ -88,7 +88,7 @@ if not label then
 end
 
 label.text = "ASIJODJADIOJDAS"
-label:setFrame(10, 10, 300, 50)
+-- label:setFrame(10, 10, 300, 50)
 view:addSubview(label)
 )") != LUA_OK) {
 		SteakEngine::log([@"\nError: " stringByAppendingString:[NSString stringWithUTF8String:lua_tostring(L, -1)]]);

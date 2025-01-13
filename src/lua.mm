@@ -128,7 +128,7 @@ void lua::bindMethod(lua_State* L, Class cls, Method method) {
 void lua::bindIVar(lua_State* L, Class cls, Ivar ivar) {
 	const char* name = ivar_getName(ivar);
 
-	std::string getterName = [NSString stringWithUTF8String:name];
+	std::string getterName = [NSString stringWithUTF8String:name].UTF8String;
 	getterName = getterName.substr(1);
 
 	SteakEngine::log([NSString stringWithFormat:@"\nBinding Instance variables %s\n", getterName.c_str()]);

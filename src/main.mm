@@ -82,7 +82,7 @@ if not view then
 	log("\nView is nil")
 end
 
-local label = UILabel:initWithString("Hoeiaoisjdoijasdoiajsd")
+local label = UILabel:alloc:initWithString("Hoeiaoisjdoijasdoiajsd")
 if not label then
 	log("\nLabel is nil")
 end

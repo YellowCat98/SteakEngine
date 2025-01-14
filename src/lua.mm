@@ -254,6 +254,25 @@ void lua::bindClass(lua_State* L, const char* className) {
 	});
 	lua_settable(L, -3);
 
+    lua_pushstring(L, "alloc");
+    lua_pushcfunction(L, [](lua_State* L) -> int {
+        //Class cls = (__bridge Class)lua_touserdata(L, 1);
+		if (!lua::lastBoundClass) {
+			SteakEngine::log(@"\nCreate method: class is nil.");
+			lua_pushnil(L);
+			return 1;
+		}
+        id instance = [lua::lastBoundClass alloc];  // alloc + init
+        if (instance) {
+            lua_pushlightuserdata(L, (__bridge void*)instance);
+        } else {
+			SteakEngine::log(@"\nAlloc method: instance is nil.");
+            lua_pushnil(L);
+        }
+        return 1;
+    });
+    lua_settable(L, -3);
+
     lua_pushstring(L, "create");
     lua_pushcfunction(L, [](lua_State* L) -> int {
         //Class cls = (__bridge Class)lua_touserdata(L, 1);

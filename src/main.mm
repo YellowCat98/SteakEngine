@@ -33,7 +33,7 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 											preferredStyle:UIAlertActionStyleDefault
 											handler:nil];
 
-	[alert addAction:okAction]
+	[alert addAction:okAction];
 
 	[rootVC presentViewController:alert animated:YES completion:nil];
     return result;

@@ -14,15 +14,29 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 
     bool result = LevelSelectorView_canSelectLevel(self, _cmd, p0);
 
+	auto keyWindow = [UIApplication sharedApplication].keyWindow;
+
+	if (!keyWindow) return result;
+
+	auto rootVC = keyWindow.rootViewController;
+	while (rootVC.presentedViewController) {
+		rootVC = rootVC.presentedViewController;
+	}
+
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"HELLO WORLD"
-												message:@"*starts dabbing...*"
-												delegate:self
-												cancelButtonTitle:@"Cancelino."
-												otherButtonTitles:@"Noo...", nil];
+	UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Hello"
+																message:@"the"
+															preferredStyle:UIAlertControllerStyleAlert];
+	
+	UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"oK Vro.."
+											preferredStyle:UIAlertActionStyleDefault
+											handler:nil]
 
-    return true;
+	[alert addAction:okAction]
+
+	[rootVC presentViewController:alert animated:YES completion:nil];
+    return result;
 }
 
 long long my_meatsCount(id self, SEL _cmd) {

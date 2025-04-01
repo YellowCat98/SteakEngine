@@ -16,6 +16,12 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 
 	SteakEngine::log([@"\n" stringByAppendingString:[NSString stringWithUTF8String:std::to_string(static_cast<int>(result)).c_str()]]);
 
+	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"HELLO WORLD"
+												message:@"*starts dabbing...*"
+												delegate:self
+												cancelButtonTitle:@"Cancelino."
+												otherButtonTitles:@"Noo...", nil];
+
     return true;
 }
 
@@ -38,6 +44,7 @@ bool my_isFullGameUnlocked(id self, SEL _cmd) {
 
 __attribute__((constructor))
 static void initialize() {
+	/*
 	SteakEngine::log(@"Hello, world...");
 	lua_State* L = luaL_newstate();
 	luaL_openlibs(L);
@@ -45,7 +52,7 @@ static void initialize() {
 	SteakEngine::lua::init(L);
 
 	Class targetClass = objc_getClass("LevelSelectorView");
-	/*
+	
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
 	} else {
@@ -71,10 +78,10 @@ static void initialize() {
 	*/
 	
 
-	//SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
+	SteakEngine::swizzleMethod<bool, id, SEL, unsigned long long>(targetClass, @selector(canSelectLevel:), LevelSelectorView_canSelectLevel, my_canSelectLevel);
 	//SteakEngine::swizzleMethod<long long, id, SEL>(objc_getClass("GameUser"), @selector(meatsCount), GameUser_meatsCount, my_meatsCount);
-	SteakEngine::swizzleMethod<bool, id, SEL>(objc_getClass("GameUser"), @selector(isFullGameUnlocked), GameUser_isFullGameUnlocked, my_isFullGameUnlocked);
-
+	//SteakEngine::swizzleMethod<bool, id, SEL>(objc_getClass("GameUser"), @selector(isFullGameUnlocked), GameUser_isFullGameUnlocked, my_isFullGameUnlocked);
+/*
 	if (luaL_dostring(L, R"(
 local view = UIView:create()
 
@@ -94,4 +101,5 @@ end
 	}
 
 	lua_close(L);
+*/
 }

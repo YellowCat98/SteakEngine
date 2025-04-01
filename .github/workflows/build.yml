@@ -22,7 +22,7 @@ jobs:
         run: ls /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/
 
       - name: Upload dylib
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: SteakEngine
           path: /Users/runner/work/SteakEngine/SteakEngine/build/Release-iphoneos/*.dylib

@@ -50,9 +50,9 @@ static void initialize() {
 	luaL_openlibs(L);
 
 	SteakEngine::lua::init(L);
-
+	*/
 	Class targetClass = objc_getClass("LevelSelectorView");
-	
+	/*
 	if (!targetClass) {
 		SteakEngine::log(@"\nClass not found");
 	} else {

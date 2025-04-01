@@ -30,7 +30,7 @@ bool my_canSelectLevel(id self, SEL _cmd, unsigned long long p0) {
 															preferredStyle:UIAlertControllerStyleAlert];
 	
 	UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"oK Vro.."
-											preferredStyle:UIAlertActionStyleDefault
+											style:UIAlertActionStyleDefault
 											handler:nil];
 
 	[alert addAction:okAction];
